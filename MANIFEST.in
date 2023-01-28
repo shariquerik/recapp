@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include recapp *.css
+recursive-include recapp *.csv
+recursive-include recapp *.html
+recursive-include recapp *.ico
+recursive-include recapp *.js
+recursive-include recapp *.json
+recursive-include recapp *.md
+recursive-include recapp *.png
+recursive-include recapp *.py
+recursive-include recapp *.svg
+recursive-include recapp *.txt
+recursive-exclude recapp *.pyc
