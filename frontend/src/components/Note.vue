@@ -15,23 +15,7 @@
       appearance="minimal"
       title="Drag to move"
     >
-      <svg
-        class="h-4 w-4 cursor-grab text-gray-500"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <circle cx="9" cy="12" r="1"></circle>
-        <circle cx="9" cy="5" r="1"></circle>
-        <circle cx="9" cy="19" r="1"></circle>
-        <circle cx="15" cy="12" r="1"></circle>
-        <circle cx="15" cy="5" r="1"></circle>
-        <circle cx="15" cy="19" r="1"></circle>
-      </svg>
+      <DragIcon />
     </Button>
   </div>
   <div
@@ -49,8 +33,8 @@
       </div>
     </div>
     <div class="title-description">
-      <div class="title-link flex items-center gap-2 min-h-6">
-        <div class="text-xl leading-snug font-medium">
+      <div class="title-link flex items-center gap-2">
+        <div class="flex items-center text-xl leading-snug font-medium h-6">
           {{ note.title }}
         </div>
         <div v-if="note.link" class="link">
@@ -71,7 +55,9 @@
       />
     </div>
   </div>
-  <div class="transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+  <div
+    class="transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100"
+  >
     <Button
       class="p-0.5 mr-28 text-gray-500"
       icon="x"
@@ -142,6 +128,7 @@
 
 <script setup>
 import { FeatherIcon, Dialog, Input, TextEditor } from 'frappe-ui'
+import DragIcon from './icons/DragIcon.vue'
 import { notes } from '../data/notes'
 import { html2text } from '../utils'
 import { ref } from 'vue'
