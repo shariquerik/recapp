@@ -62,7 +62,7 @@
       class="p-0.5 mr-28 text-gray-500"
       icon="x"
       appearance="minimal"
-      @click="show_confirm_dialog = true"
+      @click="delete_note(note.name)"
       title="Click to delete note"
     />
   </div>
@@ -162,11 +162,25 @@ function update_note(note) {
 }
 
 function delete_note(name) {
-  notes.delete.submit(name, {
-    onSuccess: () => {
-      notes.reload()
-      show_confirm_dialog.value = false
-    },
+  $dialog({
+    title: 'Delete note',
+    message: 'Are you sure you want to delete this note?',
+    actions: [
+      {
+        label: 'Delete',
+        appearance: 'danger',
+        handler: ({ close }) => {
+          return notes.delete.submit(name, {
+            onSuccess: () => {
+              notes.reload()
+            },
+          }).then(close)
+        },
+      },
+      {
+        label: 'Cancel',
+      },
+    ],
   })
 }
 </script>
