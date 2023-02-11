@@ -56,61 +56,22 @@
             class="flex flex-col gap-2 justify-center items-center h-full"
           >
             <div class="text-gray-500 text-xl">No notes found</div>
-            <Button
-              class="ml-2"
-              appearance="primary"
-              @click="show_new_dialog = true"
-              >+ Add Note</Button
-            >
+            <Button class="ml-2" appearance="primary" @click="open_new_dialog">
+              + Add Note
+            </Button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <Dialog
-    :options="{
-      actions: [
-        { label: 'Create', appearance: 'primary', handler: create_note },
-        { label: 'Cancel' },
-      ],
-      size: '2xl',
-    }"
-    v-model="show_new_dialog"
-  >
-    <template #body-title>
-      <h2 class="text-2xl font-semibold mb-4">Create New Note</h2>
-    </template>
-    <template #body-content>
-      <div class="flex flex-col gap-4">
-        <Input
-          label="Title"
-          placeholder="Note Title"
-          v-model="new_note.title"
-        />
-        <Input
-          iconLeft="link"
-          label="Link"
-          placeholder="Note Link"
-          v-model="new_note.link"
-        />
-        <span class="-mb-2 block text-sm leading-4 text-gray-700"
-          >Description</span
-        >
-        <TextEditor
-          editor-class="prose-sm border max-w-none rounded-b-lg p-2 overflow-auto h-64 focus:outline-none"
-          :fixedMenu="true"
-          :content="new_note.description"
-          @change="(val) => (new_note.description = val)"
-        />
-      </div>
-    </template>
-  </Dialog>
+  <NewNoteDialog :date="today" v-model:show="show_new_dialog" />
 </template>
 
 <script setup>
-import { FeatherIcon, Button, Dialog, Input, TextEditor } from 'frappe-ui'
+import { FeatherIcon, Button } from 'frappe-ui'
 import Note from '../components/Note.vue'
-import { notes, getNotes } from '../data/notes'
+import NewNoteDialog from '../components/NewNoteDialog.vue'
+import { getNotes } from '../data/notes'
 import draggable from 'vuedraggable'
 import { ref, computed } from 'vue'
 
@@ -118,34 +79,6 @@ const show_new_dialog = ref(false)
 
 function open_new_dialog() {
   show_new_dialog.value = true
-}
-
-let new_note = ref({
-  title: '',
-  description: '',
-  link: '',
-})
-
-function create_note() {
-  notes.insert.submit(
-    {
-      title: new_note.value.title,
-      description: new_note.value.description,
-      link: new_note.value.link,
-      date: today.value,
-    },
-    {
-      onSuccess: (note) => {
-        notes.reload()
-        new_note.value = {
-          title: '',
-          description: '',
-          link: '',
-        }
-        show_new_dialog.value = false
-      },
-    }
-  )
 }
 
 let date = ref('')
@@ -172,5 +105,5 @@ function change_to_next_date() {
   date.value = $dayjs(today.value).add(1, 'day').format('YYYY-MM-DD')
 }
 
-let notes_list = computed(() => getNotes(today.value));
+let notes_list = computed(() => getNotes(today.value))
 </script>

@@ -66,68 +66,12 @@
       title="Click to delete note"
     />
   </div>
-  <Dialog
-    :options="{
-      actions: [
-        {
-          label: 'Update',
-          appearance: 'primary',
-          handler: () => update_note(note),
-        },
-        { label: 'Cancel' },
-      ],
-      size: '2xl',
-    }"
-    v-model="show_update_dialog"
-  >
-    <template #body-title>
-      <h2 class="text-2xl font-semibold mb-4">Update Note</h2>
-    </template>
-    <template #body-content>
-      <div class="flex flex-col gap-4">
-        <Input label="Title" placeholder="Note Title" v-model="note.title" />
-        <Input
-          iconLeft="link"
-          label="Link"
-          placeholder="Note Link"
-          v-model="note.link"
-        />
-        <span class="-mb-2 block text-sm leading-4 text-gray-700"
-          >Description</span
-        >
-        <TextEditor
-          editor-class="prose-sm border max-w-none rounded-b-lg p-2 overflow-auto h-40 focus:outline-none"
-          :fixedMenu="true"
-          :content="note.description"
-          @change="(val) => (note.description = val)"
-        />
-      </div>
-    </template>
-  </Dialog>
-  <Dialog
-    :options="{
-      title: 'Delete Note',
-      message: 'Are you sure want to delete this note?',
-      icon: {
-        name: 'trash-2',
-        appearance: 'danger',
-      },
-      size: 'sm',
-      actions: [
-        {
-          label: 'Delete',
-          appearance: 'primary',
-          handler: () => delete_note(note.name),
-        },
-        { label: 'Cancel' },
-      ],
-    }"
-    v-model="show_confirm_dialog"
-  />
+  <UpdateNoteDialog :note="note" v-model:show="show_update_dialog" />
 </template>
 
 <script setup>
-import { FeatherIcon, Dialog, Input, TextEditor } from 'frappe-ui'
+import { FeatherIcon, TextEditor } from 'frappe-ui'
+import UpdateNoteDialog from './UpdateNoteDialog.vue'
 import DragIcon from './icons/DragIcon.vue'
 import { notes } from '../data/notes'
 import { html2text } from '../utils'
@@ -142,24 +86,6 @@ let props = defineProps({
 })
 
 let show_update_dialog = ref(false)
-let show_confirm_dialog = ref(false)
-
-function update_note(note) {
-  notes.setValue.submit(
-    {
-      name: note.name,
-      title: note.title,
-      description: note.description,
-      link: note.link,
-    },
-    {
-      onSuccess: () => {
-        notes.reload()
-        show_update_dialog.value = false
-      },
-    }
-  )
-}
 
 function delete_note(name) {
   $dialog({
@@ -170,11 +96,10 @@ function delete_note(name) {
         label: 'Delete',
         appearance: 'danger',
         handler: ({ close }) => {
-          return notes.delete.submit(name, {
-            onSuccess: () => {
-              notes.reload()
-            },
-          }).then(close)
+          return notes.delete.submit(name).then(() => {
+            notes.reload()
+            close()
+          })
         },
       },
       {
