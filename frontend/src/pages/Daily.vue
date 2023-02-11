@@ -16,7 +16,7 @@
           <Button class="m-2" @click="change_to_previous_date">
             <FeatherIcon
               name="chevron-left"
-              stroke-width="2"
+              :stroke-width="2"
               class="h-4 w-4 text-gray-900 cursor-pointer"
             />
           </Button>
@@ -26,7 +26,7 @@
           <Button class="m-2" @click="change_to_next_date">
             <FeatherIcon
               name="chevron-right"
-              stroke-width="2"
+              :stroke-width="2"
               class="h-4 w-4 text-gray-900 cursor-pointer"
             />
           </Button>
@@ -35,13 +35,23 @@
           class="notes flex justify-center overflow-y-auto"
           :style="{ height: 'calc(100vh - 6rem)' }"
         >
+          <div
+            v-if="notes_data?.length === 0"
+            class="flex flex-col gap-2 justify-center items-center h-full"
+          >
+            <div class="text-gray-500 text-xl">No notes found</div>
+            <Button class="ml-2" appearance="primary" @click="open_new_dialog">
+              + Add Note
+            </Button>
+          </div>
           <draggable
-            v-if="notes_list.length"
-            v-model="notes_list"
+            v-else
+            v-model="notes_data"
             handle=".note-drag-handle"
             :animation="200"
             easing="cubic-bezier(0.34, 1.56, 0.64, 1)"
-            item-key="id"
+            item-key="name"
+            @end="update_note_sequence(notes_data)"
           >
             <template #item="{ element, index }">
               <div
@@ -51,15 +61,6 @@
               </div>
             </template>
           </draggable>
-          <div
-            v-else
-            class="flex flex-col gap-2 justify-center items-center h-full"
-          >
-            <div class="text-gray-500 text-xl">No notes found</div>
-            <Button class="ml-2" appearance="primary" @click="open_new_dialog">
-              + Add Note
-            </Button>
-          </div>
         </div>
       </div>
     </div>
@@ -71,9 +72,9 @@
 import { FeatherIcon, Button } from 'frappe-ui'
 import Note from '../components/Note.vue'
 import NewNoteDialog from '../components/NewNoteDialog.vue'
-import { getNotes } from '../data/notes'
+import { getNotes, update_note_sequence } from '../data/notes'
 import draggable from 'vuedraggable'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const show_new_dialog = ref(false)
 
@@ -105,5 +106,12 @@ function change_to_next_date() {
   date.value = $dayjs(today.value).add(1, 'day').format('YYYY-MM-DD')
 }
 
-let notes_list = computed(() => getNotes(today.value))
+let notes_data = ref([])
+
+watch(
+  () => getNotes(today.value),
+  (val) => {
+    notes_data.value = val
+  }
+)
 </script>

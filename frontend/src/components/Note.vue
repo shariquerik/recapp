@@ -27,7 +27,7 @@
       <div class="p-1.5 bg-gray-200 rounded-md">
         <FeatherIcon
           name="type"
-          stroke-width="2"
+          :stroke-width="2"
           class="h-3 w-3 text-gray-700 cursor-pointer"
         />
       </div>
@@ -41,7 +41,7 @@
           <a :href="note.link" @click.stop target="_blank">
             <FeatherIcon
               name="external-link"
-              stroke-width="2"
+              :stroke-width="2"
               class="h-4 w-4 text-blue-600 cursor-pointer"
             />
           </a>
