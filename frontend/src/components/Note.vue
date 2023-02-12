@@ -34,7 +34,7 @@
     </div>
     <div class="title-description">
       <div class="title-link flex items-center gap-2">
-        <div class="flex items-center text-xl leading-snug font-medium h-6">
+        <div class="text-xl leading-normal font-medium">
           {{ note.title }}
         </div>
         <div v-if="note.link" class="link">
