@@ -6,7 +6,7 @@ const routes = [
     redirect: '/daily',
   },
   {
-    path: '/daily',
+    path: '/daily/:date?',
     name: 'Daily',
     component: () => import('@/pages/Daily.vue'),
   },

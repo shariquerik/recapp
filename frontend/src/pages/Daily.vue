@@ -74,6 +74,7 @@ import Note from '../components/Note.vue'
 import NewNoteDialog from '../components/NewNoteDialog.vue'
 import { getNotes, update_note_sequence } from '../data/notes'
 import draggable from 'vuedraggable'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, computed, watch } from 'vue'
 
 const show_new_dialog = ref(false)
@@ -81,8 +82,17 @@ const show_new_dialog = ref(false)
 function open_new_dialog() {
   show_new_dialog.value = true
 }
+let route = useRoute()
+let router = useRouter()
 
 let date = ref('')
+if (route.params.date) {
+  if ($dayjs(route.params.date).isValid()) {
+    date.value = route.params.date
+  } else {
+    date.value = $dayjs().format('YYYY-MM-DD')
+  }
+}
 
 const today = computed(() => {
   if (date.value) {
@@ -100,10 +110,12 @@ const date_text = computed(() => {
 
 function change_to_previous_date() {
   date.value = $dayjs(today.value).subtract(1, 'day').format('YYYY-MM-DD')
+  router.push('/daily/' + date.value)
 }
 
 function change_to_next_date() {
   date.value = $dayjs(today.value).add(1, 'day').format('YYYY-MM-DD')
+  router.push('/daily/' + date.value)
 }
 
 let notes_data = ref([])
