@@ -6,7 +6,7 @@
       class="p-0.5 text-gray-500"
       icon="plus"
       appearance="minimal"
-      @click="emit('open_new_dialog')"
+      @click="emit('open_new_dialog', note.date)"
       title="Click to add new note"
     />
     <Button
@@ -19,7 +19,7 @@
     </Button>
   </div>
   <div
-    class="flex flex-1 p-2 gap-2 max-w-lg"
+    class="flex flex-1 p-2 gap-2 max-w-xl"
     @click="show_update_dialog = true"
     title="Click to update note"
   >

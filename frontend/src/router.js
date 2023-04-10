@@ -10,6 +10,11 @@ const routes = [
     name: 'Daily',
     component: () => import('@/pages/Daily.vue'),
   },
+  {
+    path: '/weekly/:date?',
+    name: 'Weekly',
+    component: () => import('@/pages/Weekly.vue'),
+  },
 ]
 
 let router = createRouter({

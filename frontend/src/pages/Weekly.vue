@@ -2,10 +2,10 @@
   <div class="flex justify-center h-screen bg-gray-100">
     <div class="p-6 w-full overflow-hidden">
       <div class="flex justify-between py-3">
-        <div class="text-3xl font-semibold">Daily</div>
+        <div class="text-3xl font-semibold">Weekly</div>
         <div class="flex gap-2">
-          <Button appearance="primary">Daily</Button>
-          <Button @click="switch_to_weekly">Weekly</Button>
+          <Button @click="switch_to_daily">Daily</Button>
+          <Button appearance="primary">Weekly</Button>
           <Button>Monthly</Button>
         </div>
       </div>
@@ -57,7 +57,17 @@
               <div
                 class="group flex items-center py-2 last:mb-0 cursor-pointer"
               >
-                <Note @open_new_dialog="open_new_dialog" :note="element" />
+                <Note
+                  v-if="element.type != 'Weekly'"
+                  @open_new_dialog="open_new_dialog"
+                  :note="element"
+                />
+                <div
+                  v-else
+                  class="flex-1 text-center text-gray-900 bg-gray-100 rounded-md text-2xl mx-6"
+                >
+                  {{ element.title }}
+                </div>
               </div>
             </template>
           </draggable>
@@ -65,7 +75,7 @@
       </div>
     </div>
   </div>
-  <NewNoteDialog :date="today" v-model:show="show_new_dialog" />
+  <NewNoteDialog :date="show_new_dialog.date" v-model:show="show_new_dialog.show" />
 </template>
 
 <script setup>
@@ -77,10 +87,14 @@ import draggable from 'vuedraggable'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, computed, watch, onMounted } from 'vue'
 
-const show_new_dialog = ref(false)
+const show_new_dialog = ref({
+  show: false,
+  date: '',
+})
 
-function open_new_dialog() {
-  show_new_dialog.value = true
+function open_new_dialog(date = '') {
+  show_new_dialog.value.show = true
+  show_new_dialog.value.date = date || ''
 }
 let route = useRoute()
 let router = useRouter()
@@ -94,8 +108,8 @@ if (route.params.date) {
   }
 }
 
-function switch_to_weekly() {
-  router.push('/weekly/' + date.value)
+function switch_to_daily() {
+  router.push('/daily/' + date.value)
 }
 
 const today = computed(() => {
@@ -106,29 +120,52 @@ const today = computed(() => {
 })
 
 const date_text = computed(() => {
-  return $dayjs(today.value).format('dddd - D MMMM, YYYY')
+  let start_date = $dayjs(today.value).startOf('week').format('D MMMM')
+  let end_date = $dayjs(today.value).endOf('week').format('D MMMM')
+  return `${start_date} - ${end_date}`
 })
 
 function change_to_previous_date() {
-  date.value = $dayjs(today.value).subtract(1, 'day').format('YYYY-MM-DD')
-  router.push('/daily/' + date.value)
+  date.value = $dayjs(today.value).subtract(7, 'day').format('YYYY-MM-DD')
+  router.push('/weekly/' + date.value)
 }
 
 function change_to_next_date() {
-  date.value = $dayjs(today.value).add(1, 'day').format('YYYY-MM-DD')
-  router.push('/daily/' + date.value)
+  date.value = $dayjs(today.value).add(7, 'day').format('YYYY-MM-DD')
+  router.push('/weekly/' + date.value)
 }
 
 let notes_data = ref([])
 
 watch(
-  () => getNotes(today.value),
-  (val) => {
-    notes_data.value = val
+  () => getNotes(today.value, 'weekly'),
+  (weekly_notes) => {
+    let last_date = ''
+    let updated_notes = []
+    weekly_notes.forEach((note, index) => {
+      let dayname = $dayjs(note.date).format('dddd, DD ')
+      if (note.date !== last_date) {
+        updated_notes.push({ title: dayname, type: 'Weekly' })
+      }
+      last_date = note.date
+      updated_notes.push(note)
+    })
+    notes_data.value = updated_notes
   }
 )
 
-onMounted(() => {
-  notes_data.value = getNotes(today.value)
+onMounted(async () => {
+  let weekly_notes = await getNotes(today.value, 'weekly')
+  let last_date = ''
+  let updated_notes = []
+  weekly_notes.forEach((note, index) => {
+    let dayname = $dayjs(note.date).format('dddd, DD ')
+    if (note.date !== last_date) {
+      updated_notes.push({ title: dayname, type: 'Weekly' })
+    }
+    last_date = note.date
+    updated_notes.push(note)
+  })
+  notes_data.value = updated_notes
 })
 </script>
