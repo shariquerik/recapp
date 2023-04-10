@@ -3,9 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "postinstall": "cd frontend && yarn install",
-    "dev": "cd frontend && yarn dev",
-    "build": "cd frontend && yarn build"
+    "dev": "vite",
+		"serve": "vite preview",
+		"build": "vite build --base=/assets/recapp/frontend/ && yarn copy-html-entry",
+		"copy-html-entry": "cp ../recapp/public/frontend/index.html ../recapp/www/recapp.html"
   },
   "dependencies": {
     "dayjs": "^1.10.7",
