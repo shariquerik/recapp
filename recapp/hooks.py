@@ -45,6 +45,14 @@ app_license = "MIT"
 #	"Role": "home_page"
 # }
 
+website_route_rules = [
+	{"from_route": "/recapp/<path:app_path>", "to_route": "recapp"},
+]
+
+website_redirects = [
+	{"source": "/", "target": "/recapp"},
+]
+
 # Generators
 # ----------
 
