@@ -18,7 +18,7 @@ const routes = [
 ]
 
 let router = createRouter({
-  history: createWebHistory('/'),
+  history: createWebHistory('/recapp'),
   routes,
 })
 
