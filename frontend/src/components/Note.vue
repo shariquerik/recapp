@@ -75,7 +75,7 @@ import UpdateNoteDialog from './UpdateNoteDialog.vue'
 import DragIcon from './icons/DragIcon.vue'
 import { notes } from '../data/notes'
 import { html2text } from '../utils'
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 
 let emit = defineEmits(['open_new_dialog'])
 
@@ -86,9 +86,10 @@ let props = defineProps({
 })
 
 let show_update_dialog = ref(false)
+let dialog = inject('$dialog')
 
 function delete_note(name) {
-  $dialog({
+  dialog({
     title: 'Delete note',
     message: 'Are you sure you want to delete this note?',
     actions: [

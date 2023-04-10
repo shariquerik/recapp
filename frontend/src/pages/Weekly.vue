@@ -85,7 +85,9 @@ import NewNoteDialog from '../components/NewNoteDialog.vue'
 import { getNotes, update_note_sequence } from '../data/notes'
 import draggable from 'vuedraggable'
 import { useRoute, useRouter } from 'vue-router'
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, inject } from 'vue'
+
+let dayjs = inject('$dayjs')
 
 const show_new_dialog = ref({
   show: false,
@@ -101,10 +103,10 @@ let router = useRouter()
 
 let date = ref('')
 if (route.params.date) {
-  if ($dayjs(route.params.date).isValid()) {
+  if (dayjs(route.params.date).isValid()) {
     date.value = route.params.date
   } else {
-    date.value = $dayjs().format('YYYY-MM-DD')
+    date.value = dayjs().format('YYYY-MM-DD')
   }
 }
 
@@ -114,24 +116,24 @@ function switch_to_daily() {
 
 const today = computed(() => {
   if (date.value) {
-    return $dayjs(date.value).format('YYYY-MM-DD')
+    return dayjs(date.value).format('YYYY-MM-DD')
   }
-  return $dayjs().format('YYYY-MM-DD')
+  return dayjs().format('YYYY-MM-DD')
 })
 
 const date_text = computed(() => {
-  let start_date = $dayjs(today.value).startOf('week').format('D MMMM')
-  let end_date = $dayjs(today.value).endOf('week').format('D MMMM')
+  let start_date = dayjs(today.value).startOf('week').format('D MMMM')
+  let end_date = dayjs(today.value).endOf('week').format('D MMMM')
   return `${start_date} - ${end_date}`
 })
 
 function change_to_previous_date() {
-  date.value = $dayjs(today.value).subtract(7, 'day').format('YYYY-MM-DD')
+  date.value = dayjs(today.value).subtract(7, 'day').format('YYYY-MM-DD')
   router.push('/weekly/' + date.value)
 }
 
 function change_to_next_date() {
-  date.value = $dayjs(today.value).add(7, 'day').format('YYYY-MM-DD')
+  date.value = dayjs(today.value).add(7, 'day').format('YYYY-MM-DD')
   router.push('/weekly/' + date.value)
 }
 
@@ -143,7 +145,7 @@ watch(
     let last_date = ''
     let updated_notes = []
     weekly_notes.forEach((note, index) => {
-      let dayname = $dayjs(note.date).format('dddd, DD ')
+      let dayname = dayjs(note.date).format('dddd, DD ')
       if (note.date !== last_date) {
         updated_notes.push({ title: dayname, type: 'Weekly' })
       }
@@ -159,7 +161,7 @@ onMounted(async () => {
   let last_date = ''
   let updated_notes = []
   weekly_notes.forEach((note, index) => {
-    let dayname = $dayjs(note.date).format('dddd, DD ')
+    let dayname = dayjs(note.date).format('dddd, DD ')
     if (note.date !== last_date) {
       updated_notes.push({ title: dayname, type: 'Weekly' })
     }

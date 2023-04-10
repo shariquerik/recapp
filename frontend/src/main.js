@@ -14,8 +14,8 @@ app.use(FrappeUI)
 app.component('Button', Button)
 
 app.config.unwrapInjectedRef = true
-app.config.globalProperties.$dayjs = dayjs
-app.config.globalProperties.$dialog = createDialog
+app.provide('$dayjs', dayjs)
+app.provide('$dialog', createDialog)
 app.mount('#app')
 
 if (import.meta.env.DEV) {

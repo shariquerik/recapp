@@ -75,9 +75,11 @@ import NewNoteDialog from '../components/NewNoteDialog.vue'
 import { getNotes, update_note_sequence } from '../data/notes'
 import draggable from 'vuedraggable'
 import { useRoute, useRouter } from 'vue-router'
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, inject } from 'vue'
 
 const show_new_dialog = ref(false)
+
+let dayjs = inject('$dayjs')
 
 function open_new_dialog() {
   show_new_dialog.value = true
@@ -87,10 +89,10 @@ let router = useRouter()
 
 let date = ref('')
 if (route.params.date) {
-  if ($dayjs(route.params.date).isValid()) {
+  if (dayjs(route.params.date).isValid()) {
     date.value = route.params.date
   } else {
-    date.value = $dayjs().format('YYYY-MM-DD')
+    date.value = dayjs().format('YYYY-MM-DD')
   }
 }
 
@@ -100,22 +102,22 @@ function switch_to_weekly() {
 
 const today = computed(() => {
   if (date.value) {
-    return $dayjs(date.value).format('YYYY-MM-DD')
+    return dayjs(date.value).format('YYYY-MM-DD')
   }
-  return $dayjs().format('YYYY-MM-DD')
+  return dayjs().format('YYYY-MM-DD')
 })
 
 const date_text = computed(() => {
-  return $dayjs(today.value).format('dddd - D MMMM, YYYY')
+  return dayjs(today.value).format('dddd - D MMMM, YYYY')
 })
 
 function change_to_previous_date() {
-  date.value = $dayjs(today.value).subtract(1, 'day').format('YYYY-MM-DD')
+  date.value = dayjs(today.value).subtract(1, 'day').format('YYYY-MM-DD')
   router.push('/daily/' + date.value)
 }
 
 function change_to_next_date() {
-  date.value = $dayjs(today.value).add(1, 'day').format('YYYY-MM-DD')
+  date.value = dayjs(today.value).add(1, 'day').format('YYYY-MM-DD')
   router.push('/daily/' + date.value)
 }
 
