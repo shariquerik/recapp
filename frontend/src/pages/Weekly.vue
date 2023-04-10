@@ -140,7 +140,7 @@ function change_to_next_date() {
 let notes_data = ref([])
 
 watch(
-  () => getNotes(today.value, 'weekly'),
+  () => getNotes(today.value, 'weekly', dayjs),
   (weekly_notes) => {
     let last_date = ''
     let updated_notes = []
@@ -157,7 +157,7 @@ watch(
 )
 
 onMounted(async () => {
-  let weekly_notes = await getNotes(today.value, 'weekly')
+  let weekly_notes = await getNotes(today.value, 'weekly', dayjs)
   let last_date = ''
   let updated_notes = []
   weekly_notes.forEach((note, index) => {

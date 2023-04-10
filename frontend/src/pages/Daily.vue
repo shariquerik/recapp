@@ -124,13 +124,13 @@ function change_to_next_date() {
 let notes_data = ref([])
 
 watch(
-  () => getNotes(today.value),
+  () => getNotes(today.value, '', dayjs),
   (val) => {
     notes_data.value = val
   }
 )
 
 onMounted(() => {
-  notes_data.value = getNotes(today.value)
+  notes_data.value = getNotes(today.value, '', dayjs)
 })
 </script>

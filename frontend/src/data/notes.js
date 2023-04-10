@@ -10,10 +10,10 @@ export let notes = createListResource({
   auto: true,
 })
 
-export function getNotes(date, duration) {
+export function getNotes(date, duration, dayjs) {
   if (duration === 'weekly') {
-    let start_date = $dayjs(date).startOf('week').format('YYYY-MM-DD')
-    let end_date = $dayjs(date).endOf('week').format('YYYY-MM-DD')
+    let start_date = dayjs(date).startOf('week').format('YYYY-MM-DD')
+    let end_date = dayjs(date).endOf('week').format('YYYY-MM-DD')
 
     let weekly_notes = notes.data?.filter(
       (note) => note.date >= start_date && note.date <= end_date
