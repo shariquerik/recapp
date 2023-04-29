@@ -2,6 +2,7 @@
 import { Dialogs } from '@/utils/dialogs'
 import { useStore } from './store.js'
 import { useRoute, useRouter } from 'vue-router';
+import { session } from './data/session.js'
 
 let store = useStore()
 let route = useRoute()
@@ -16,11 +17,11 @@ let views = ['Daily', 'Weekly', 'Monthly']
 </script>
 
 <template>
-  <div>
+  <router-view v-if="['Login'].includes(route.name)" />
+  <div v-else>
     <div class="flex justify-center h-screen bg-gray-100">
       <div class="p-6 w-full overflow-hidden">
         <div class="flex justify-between py-3">
-          <div class="text-3xl font-semibold">{{ store.current_view }}</div>
           <div class="flex gap-2">
             <div v-for="view in views">
               <Button
@@ -34,6 +35,7 @@ let views = ['Daily', 'Weekly', 'Monthly']
               >
             </div>
           </div>
+          <div class="text-xl">{{ session.user }}</div>
         </div>
         <div class="bg-white rounded-lg drop-shadow-sm">
           <router-view />
