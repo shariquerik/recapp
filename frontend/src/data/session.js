@@ -13,27 +13,12 @@ export function sessionUser() {
 }
 
 export let session = reactive({
-  login: createResource({
-    url: 'login',
-    makeParams({ email, password }) {
-      return {
-        usr: email,
-        pwd: password,
-      }
-    },
-    onSuccess(data) {
-      users.reload()
-      session.user = sessionUser()
-      session.login.reset()
-      router.replace(data.default_route || '/home')
-    },
-  }),
   logout: createResource({
     url: 'logout',
     onSuccess() {
       users.reset()
       session.user = sessionUser()
-      router.replace({ name: 'Login' })
+      router.replace({ name: 'Daily' })
     },
   }),
   user: sessionUser(),
