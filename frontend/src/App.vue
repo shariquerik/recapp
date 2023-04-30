@@ -146,7 +146,7 @@ notes.list.fetch()
     </div>
     <div class="main flex-1 p-6">
       <div class="head flex justify-center items-center">
-        <Button @click="store.change_to_previous_date">
+        <Button appearance="minimal" @click="store.change_to_previous_date">
           <FeatherIcon
             name="chevron-left"
             :stroke-width="2"
@@ -156,7 +156,7 @@ notes.list.fetch()
         <div class="px-2 py-0.5 flex-1 text-center text-gray-600 text-2xl">
           {{ store.date_text }}
         </div>
-        <Button @click="store.change_to_next_date">
+        <Button appearance="minimal" @click="store.change_to_next_date">
           <FeatherIcon
             name="chevron-right"
             :stroke-width="2"
