@@ -16,11 +16,6 @@ const routes = [
     path: '/weekly/:date?',
     name: 'Weekly',
     component: () => import('@/pages/Weekly.vue'),
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/pages/Login.vue'),
   }
 ]
 
@@ -37,9 +32,7 @@ router.beforeEach(async (to, from, next) => {
     isLoggedIn = false
   }
 
-  if (to.name === 'Login' && isLoggedIn) {
-    next({ name: 'Daily' })
-  } else if (to.name !== 'Login' && !isLoggedIn) {
+  if (!isLoggedIn) {
     window.location.href = window.location.origin + '/login?redirect-to=/recapp'
   } else {
     next()

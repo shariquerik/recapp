@@ -7,7 +7,7 @@
       ],
       size: '2xl',
     }"
-    v-model="open"
+    v-model="store.show_new_dialog"
   >
     <template #body-title>
       <h2 class="text-2xl font-semibold mb-4">Create New Note</h2>
@@ -21,7 +21,9 @@
           placeholder="Note Link"
           v-model="note.link"
         />
-        <span class="-mb-2 block text-sm leading-4 text-gray-700">Description</span>
+        <span class="-mb-2 block text-sm leading-4 text-gray-700"
+          >Description</span
+        >
         <TextEditor
           editor-class="prose-sm border max-w-none rounded-b-lg p-2 overflow-auto h-64 focus:outline-none"
           :fixedMenu="true"
@@ -35,25 +37,11 @@
 
 <script setup>
 import { Dialog, Input, TextEditor } from 'frappe-ui'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { notes } from '../data/notes'
+import { useStore } from '../store'
 
-const emit = defineEmits(['update:show'])
-const props = defineProps({
-  show: {
-    type: Boolean,
-    required: true,
-  },
-  date: {
-    type: String,
-    required: true,
-  },
-})
-
-let open = computed({
-  get: () => props.show,
-  set: (value) => emit('update:show', value),
-})
+let store = useStore()
 
 let note = ref({
   title: '',
@@ -67,7 +55,7 @@ function create_note() {
       title: note.value.title,
       description: note.value.description,
       link: note.value.link,
-      date: props.date,
+      date: store.new_dailog_date,
     })
     .then(() => {
       notes.reload()
@@ -76,7 +64,7 @@ function create_note() {
         description: '',
         link: '',
       }
-      open.value = false
+      store.show_new_dialog = false
     })
 }
 </script>

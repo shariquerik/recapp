@@ -7,7 +7,7 @@
       ],
       size: '2xl',
     }"
-    v-model="open"
+    v-model="store.show_edit_dialog"
   >
     <template #body-title>
       <h2 class="text-2xl font-semibold mb-4">Update Note</h2>
@@ -35,37 +35,25 @@
 
 <script setup>
 import { Dialog, Input, TextEditor } from 'frappe-ui'
-import { computed } from 'vue'
+import { useStore } from '../store';
 import { notes } from '../data/notes'
+import { computed } from 'vue';
 
-const emit = defineEmits(['update:show'])
-const props = defineProps({
-  show: {
-    type: Boolean,
-    required: true,
-  },
-  note: {
-    type: Object,
-    required: true,
-  },
-})
+let store = useStore()
 
-let open = computed({
-  get: () => props.show,
-  set: (value) => emit('update:show', value),
-})
+let note = computed(() => store.edit_dailog_note)
 
 function update_note() {
   notes.setValue
     .submit({
-      name: props.note.name,
-      title: props.note.title,
-      description: props.note.description,
-      link: props.note.link,
+      name: note.value.name,
+      title: note.value.title,
+      description: note.value.description,
+      link: note.value.link,
     })
     .then(() => {
       notes.reload()
-      open.value = false
+      store.show_edit_dialog = false
     })
 }
 </script>

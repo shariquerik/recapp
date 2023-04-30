@@ -6,7 +6,7 @@
       class="p-0.5 text-gray-500"
       icon="plus"
       appearance="minimal"
-      @click="emit('open_new_dialog', note.date)"
+      @click="(e) => store.open_new_dialog(e, note.date)"
       title="Click to add new note"
     />
     <Button
@@ -20,7 +20,7 @@
   </div>
   <div
     class="flex flex-1 p-2 gap-2 max-w-xl"
-    @click="show_update_dialog = true"
+    @click="store.open_edit_dialog(note)"
     title="Click to update note"
   >
     <div class="icon">
@@ -66,18 +66,17 @@
       title="Click to delete note"
     />
   </div>
-  <UpdateNoteDialog :note="note" v-model:show="show_update_dialog" />
 </template>
 
 <script setup>
 import { FeatherIcon, TextEditor } from 'frappe-ui'
-import UpdateNoteDialog from './UpdateNoteDialog.vue'
 import DragIcon from './icons/DragIcon.vue'
 import { notes } from '../data/notes'
 import { html2text } from '../utils'
-import { inject, ref } from 'vue'
+import { inject } from 'vue'
+import { useStore } from '../store'
 
-let emit = defineEmits(['open_new_dialog'])
+let store = useStore()
 
 let props = defineProps({
   note: {
@@ -85,7 +84,6 @@ let props = defineProps({
   },
 })
 
-let show_update_dialog = ref(false)
 let dialog = inject('$dialog')
 
 function delete_note(name) {

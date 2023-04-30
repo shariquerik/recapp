@@ -1,13 +1,13 @@
 import { createListResource, createResource } from 'frappe-ui'
+import { session } from './session'
 
 export let notes = createListResource({
-  type: 'list',
   doctype: 'Recapp Note',
   fields: ['name', 'title', 'date', 'description', 'link', 'sequence_id'],
+  filters: { owner: session.user },
   cache: 'Recapp Notes',
   orderBy: 'sequence_id asc',
   pageLength: 999,
-  auto: true,
 })
 
 export function getNotes(date, duration, dayjs) {
@@ -15,9 +15,10 @@ export function getNotes(date, duration, dayjs) {
     let start_date = dayjs(date).startOf('week').format('YYYY-MM-DD')
     let end_date = dayjs(date).endOf('week').format('YYYY-MM-DD')
 
-    let weekly_notes = notes.data?.filter(
-      (note) => note.date >= start_date && note.date <= end_date
-    ) || []
+    let weekly_notes =
+      notes.data?.filter(
+        (note) => note.date >= start_date && note.date <= end_date
+      ) || []
 
     // notes.data sort by date then sequence_id asc
     weekly_notes.sort((a, b) => {
