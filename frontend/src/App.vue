@@ -6,6 +6,7 @@ import { users } from './data/users.js'
 import { notes } from './data/notes.js'
 import { ref } from 'vue'
 import { Avatar, DatePicker, Dropdown, FeatherIcon } from 'frappe-ui'
+import Logo from './icons/Logo.vue'
 import NewNoteDialog from './components/NewNoteDialog.vue'
 import UpdateNoteDialog from './components/UpdateNoteDialog.vue'
 import { useStore } from './store.js'
@@ -77,13 +78,7 @@ notes.list.fetch()
           class="flex items-center sidebar-header cursor-pointer"
           @click="store.date_changed = ''"
         >
-          <div class="logo border border-2 border-blue-600 rounded-md p-1 mr-2">
-            <FeatherIcon
-              name="repeat"
-              :stroke-width="2"
-              class="h-5 w-5 text-blue-600"
-            />
-          </div>
+          <Logo class="logo mr-2" />
           <h1 class="sidebar-title text-4xl text-blue-600">Recapp</h1>
         </div>
         <div class="border-b border-gray-300 my-6"></div>
@@ -93,7 +88,7 @@ notes.list.fetch()
             placeholder="Select Date"
             :formatValue="(val) => val.split('-').reverse().join('-')"
           />
-          <Button @click="(store.date_changed = '')">Today</Button>
+          <Button @click="store.date_changed = ''">Today</Button>
         </div>
         <div class="border-b border-gray-300 my-6"></div>
         <div class="sidebar-menu flex flex-col gap-2">
