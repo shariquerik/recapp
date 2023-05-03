@@ -1,6 +1,7 @@
 ## Recapp
 
-Keep track of daily work/task
+The goal of this app is to keep track of what you do on a daily basic so that if you need to know or create some summary of what you did in last month or last year you will have all the data at on place.
+I use this personally to keep track of my daily work stuff to show them in a Weekly/Monthly/Quatertly/Yearly reviews.
 
 ### Screenshots
 
