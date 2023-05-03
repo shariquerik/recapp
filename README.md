@@ -5,15 +5,36 @@ I use this personally to keep track of my daily work stuff to show them in a Wee
 
 ### Screenshots
 
+Recapp Note (No Notes)
+<kbd>
+<img width="1427" alt="Screenshot 2023-05-03 at 6 43 01 PM" src="https://user-images.githubusercontent.com/30859809/235931393-ad295f3d-2257-4a66-a402-e54da39e6d75.png">
+</kbd>
+
+Create Recapp Note
+<kbd>
+<img width="1427" alt="Screenshot 2023-05-03 at 6 44 46 PM" src="https://user-images.githubusercontent.com/30859809/235931340-e5d55d26-b335-49f0-968d-7c4d1dac68cd.png">
+</kbd>
+
+Edit Recapp Note
+<kbd>
+<img width="1427" alt="Screenshot 2023-05-03 at 6 52 34 PM" src="https://user-images.githubusercontent.com/30859809/235931280-abc9c692-48df-44af-98b7-aa811056d73f.png">
+</kbd>
+
 Daily
 <kbd>
-<img width="1425" alt="image" src="https://user-images.githubusercontent.com/30859809/235341592-619ea301-677c-47fb-9d3a-a2536bdfccd4.png">
+<img width="1427" alt="Screenshot 2023-05-03 at 7 01 06 PM" src="https://user-images.githubusercontent.com/30859809/235931166-7959ce6b-dd3c-47e5-a666-5ab473161372.png">
 </kbd>
 
 Weekly
 <kbd>
-<img width="1426" alt="image" src="https://user-images.githubusercontent.com/30859809/235341618-2c927a8a-b45d-4593-be54-62169c6b8703.png">
+<img width="1427" alt="Screenshot 2023-05-03 at 7 00 53 PM" src="https://user-images.githubusercontent.com/30859809/235931201-fb77b152-c449-45dc-a58b-34a160fa7897.png">
 </kbd>
+
+
+
+
+
+
 
 #### License
 
