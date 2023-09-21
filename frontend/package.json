@@ -1,5 +1,5 @@
 {
-  "name": "frappe-ui-frontend",
+  "name": "recapp-ui",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -9,21 +9,19 @@
 		"copy-html-entry": "cp ../recapp/public/frontend/index.html ../recapp/www/recapp.html"
   },
   "dependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue-jsx": "^2.1.1",
+    "autoprefixer": "^10.4.14",
     "dayjs": "^1.10.7",
     "feather-icons": "^4.28.0",
-    "frappe-ui": "^0.0.105",
-    "vue": "^3.2.25",
-    "vuedraggable": "^4.1.0",
-    "vue-router": "^4.0.12",
-    "pinia": "^2.0.23"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^3.2.0",
-    "@vitejs/plugin-vue-jsx": "^2.1.1",
-    "autoprefixer": "^10.4.2",
+    "frappe-ui": "^0.1.1",
+    "pinia": "^2.0.33",
     "postcss": "^8.4.5",
-    "tailwindcss": "^3.0.15",
-    "vite": "^3.2.5",
+    "tailwindcss": "^3.3.3",
+    "vite": "^4.4.9",
+    "vue": "^3.3.4",
+    "vuedraggable": "^4.1.0",
+    "vue-router": "^4.2.2",
     "vue-template-compiler": "^2.7.14"
   }
 }
