@@ -5,8 +5,10 @@ import { session } from './data/session.js'
 import { users } from './data/users.js'
 import { notes } from './data/notes.js'
 import { ref } from 'vue'
-import { Avatar, DatePicker, Dropdown, FeatherIcon } from 'frappe-ui'
+import { DatePicker, Dropdown, FeatherIcon } from 'frappe-ui'
 import Logo from './icons/Logo.vue'
+import DailyIcon from './icons/DailyIcon.vue'
+import WeeklyIcon from './icons/WeeklyIcon.vue'
 import NewNoteDialog from './components/NewNoteDialog.vue'
 import UpdateNoteDialog from './components/UpdateNoteDialog.vue'
 import { useStore } from './store.js'
@@ -18,7 +20,7 @@ let dropdownItems = [
   {
     label: 'Log out',
     icon: 'log-out',
-    handler: () => session.logout.submit(),
+    onClick: () => session.logout.submit(),
   },
 ]
 
@@ -56,7 +58,16 @@ function resize(e) {
   }
 }
 
-let views = ['Daily', 'Weekly']
+let views = [
+  {
+    label: 'Daily',
+    icon: DailyIcon,
+  },
+  {
+    label: 'Weekly',
+    icon: WeeklyIcon,
+  },
+]
 
 users.fetch()
 notes.list.fetch()
@@ -65,7 +76,7 @@ notes.list.fetch()
 <template>
   <div class="flex w-full h-screen">
     <div
-      class="sidebar flex flex-col justify-between gap-2 bg-gray-50 p-6 relative"
+      class="sidebar flex flex-col justify-between gap-2 bg-gray-50 border-r p-2 relative"
       :style="{ width: `${sidebar_width}px` }"
     >
       <div
@@ -73,70 +84,68 @@ notes.list.fetch()
         class="bg-gray-300"
         @mousedown="start_resize"
       />
-      <div>
-        <div
-          class="flex items-center sidebar-header cursor-pointer"
-          @click="store.date_changed = ''"
-        >
-          <Logo class="logo mr-2" />
-          <h1 class="sidebar-title text-4xl text-blue-600">Recapp</h1>
-        </div>
-        <div class="border-b border-gray-300 my-6"></div>
-        <div class="flex justify-between gap-2">
+      <div class="flex w-full flex-col gap-8">
+        <Dropdown :options="dropdownItems">
+          <template v-slot="{ open }">
+            <button
+              class="flex gap-2 p-2 items-center rounded-md duration-300 ease-in-out"
+              :class="open ? 'bg-white shadow-sm' : 'hover:bg-gray-200'"
+              :style="{ width: `${sidebar_width - 18}px` }"
+            >
+              <Logo class="w-8 h-8 p-1 rounded flex-shrink-0 bg-white" />
+              <div
+                class="flex flex-1 flex-col text-left duration-300 ease-in-out"
+              >
+                <div class="text-base font-medium text-gray-900 leading-none">
+                  Recapp
+                </div>
+                <div class="mt-1 text-sm text-gray-700 leading-none">
+                  {{ store.user?.full_name }}
+                </div>
+              </div>
+              <div class="">
+                <FeatherIcon
+                  name="chevron-down"
+                  class="h-4 w-4"
+                  aria-hidden="true"
+                />
+              </div>
+            </button>
+          </template>
+        </Dropdown>
+        <div class="flex justify-between gap-2 px-2">
           <DatePicker
             v-model="store.date_changed"
             placeholder="Select Date"
             :formatValue="(val) => val.split('-').reverse().join('-')"
           />
-          <Button @click="store.date_changed = ''">Today</Button>
+          <Button class="text-sm" @click="store.date_changed = ''">
+            Today
+          </Button>
         </div>
-        <div class="border-b border-gray-300 my-6"></div>
-        <div class="sidebar-menu flex flex-col gap-2">
+        <div class="sidebar-menu flex flex-col gap-2 px-2">
           <router-link
             v-for="view in views"
-            class="px-2 py-1 rounded-md text-lg"
+            class="flex items-center gap-2 px-2 py-1 rounded"
             :class="
-              view == store.current_view
-                ? 'bg-gray-200 hover:bg-gray-200'
+              view.label == store.current_view
+                ? 'bg-white shadow-sm'
                 : 'hover:bg-gray-100'
             "
             :to="
               '/' +
-              view.toLowerCase() +
+              view.label.toLowerCase() +
               (route.params.date ? '/' + route.params.date : '')
             "
-            >{{ view }}</router-link
           >
+            <span class="grid h-5 w-6 place-items-center flex-shrink-0">
+              <component :is="view.icon" class="h-4.5 w-4.5 text-gray-700" />
+            </span>
+            <span class="flex-shrink-0 text-base duration-300 ease-in-out">
+              {{ view.label }}
+            </span>
+          </router-link>
         </div>
-      </div>
-      <div class="sidebar-footer">
-        <Dropdown placement="center" :options="dropdownItems">
-          <template v-slot="{ open }">
-            <div
-              class="flex cursor-pointer items-center gap-2 rounded-md p-2 truncate break-all mt-2"
-              :class="open ? 'bg-gray-300' : 'hover:bg-gray-200'"
-            >
-              <Avatar
-                v-if="store.user"
-                :label="store.user.full_name"
-                :imageURL="store.user.user_image"
-                size="md"
-              />
-
-              <div v-if="store.user">
-                <h3 class="text-base font-semibold">
-                  {{ store.user.full_name }}
-                </h3>
-                <p class="text-xs text-gray-600">{{ store.user.email }}</p>
-              </div>
-
-              <FeatherIcon
-                :name="open ? 'chevron-up' : 'chevron-down'"
-                class="h-4 w-4 ml-4"
-              />
-            </div>
-          </template>
-        </Dropdown>
       </div>
     </div>
     <div class="main flex-1 p-6">

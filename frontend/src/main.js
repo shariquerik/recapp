@@ -18,7 +18,6 @@ app.use(FrappeUI)
 app.use(pinia);
 app.component('Button', Button)
 
-app.config.unwrapInjectedRef = true
 app.provide('$dayjs', dayjs)
 app.provide('$dialog', createDialog)
 app.mount('#app')
