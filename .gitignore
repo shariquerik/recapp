@@ -5,4 +5,5 @@
 tags
 node_modules
 recapp/public/frontend
+recapp/www/recapp.html
 __pycache__
