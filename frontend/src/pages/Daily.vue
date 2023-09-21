@@ -1,10 +1,10 @@
 <template>
   <div
     v-if="notes_data?.length === 0"
-    class="flex flex-col gap-2 justify-center items-center h-full"
+    class="flex flex-col gap-3 justify-center items-center h-full"
   >
     <div class="text-gray-500 text-xl">No notes found</div>
-    <Button class="ml-2" appearance="primary" @click="store.open_new_dialog">
+    <Button class="ml-2" variant="solid" @click="store.open_new_dialog">
       + Add Note
     </Button>
   </div>

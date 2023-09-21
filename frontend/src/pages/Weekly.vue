@@ -1,10 +1,10 @@
 <template>
   <div
     v-if="notes_data?.length === 0"
-    class="flex flex-col gap-2 justify-center items-center h-full"
+    class="flex flex-col gap-3 justify-center items-center h-full"
   >
     <div class="text-gray-500 text-xl">No notes found</div>
-    <Button class="ml-2" appearance="primary" @click="store.open_new_dialog">
+    <Button class="ml-2" variant="solid" @click="store.open_new_dialog">
       + Add Note
     </Button>
   </div>
@@ -17,12 +17,12 @@
     item-key="name"
     @end="update_note_sequence(notes_data)"
   >
-    <template #item="{ element, index }">
+    <template #item="{ element }">
       <div class="group flex items-center py-2 last:mb-0 cursor-pointer">
         <Note v-if="element.type != 'Weekly'" :note="element" />
         <div
           v-else
-          class="flex-1 text-center text-gray-900 bg-gray-100 rounded-md text-2xl mx-6"
+          class="flex-1 text-center text-gray-900 bg-gray-100 rounded-md text-xl mx-6 py-1"
         >
           {{ element.title }}
         </div>

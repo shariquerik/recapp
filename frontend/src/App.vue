@@ -148,19 +148,19 @@ notes.list.fetch()
         </div>
       </div>
     </div>
-    <div class="main flex-1 p-6">
-      <div class="head flex justify-center items-center">
-        <Button appearance="minimal" @click="store.change_to_previous_date">
+    <div class="main flex-1">
+      <div class="head flex justify-center items-center border-b p-3 mb-3">
+        <Button variant="ghosted" @click="store.change_to_previous_date">
           <FeatherIcon
             name="chevron-left"
             :stroke-width="2"
             class="h-5 w-5 text-gray-600 cursor-pointer"
           />
         </Button>
-        <div class="px-2 py-0.5 flex-1 text-center text-gray-600 text-2xl">
+        <div class="flex-1 text-center text-gray-700 text-xl">
           {{ store.date_text }}
         </div>
-        <Button appearance="minimal" @click="store.change_to_next_date">
+        <Button variant="ghosted" @click="store.change_to_next_date">
           <FeatherIcon
             name="chevron-right"
             :stroke-width="2"
@@ -168,10 +168,8 @@ notes.list.fetch()
           />
         </Button>
       </div>
-      <div class="border-b border-gray-200 my-6"></div>
       <div
-        class="notes flex justify-center overflow-y-auto"
-        :style="{ height: 'calc(100vh - 8rem)' }"
+        class="notes flex justify-center overflow-y-auto h-[calc(100vh-5rem)]"
       >
         <router-view />
       </div>
