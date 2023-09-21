@@ -5,14 +5,13 @@
     <Button
       class="p-0.5 text-gray-500"
       icon="plus"
-      appearance="minimal"
+      variant="ghosted"
       @click="(e) => store.open_new_dialog(e, note.date)"
       title="Click to add new note"
     />
     <Button
-      class="note-drag-handle"
-      :style="{ padding: '0.125rem' }"
-      appearance="minimal"
+      class="note-drag-handle p-0.5"
+      variant="ghosted"
       title="Drag to move"
     >
       <DragIcon />
@@ -24,7 +23,7 @@
     title="Click to update note"
   >
     <div class="icon">
-      <div class="p-1.5 bg-gray-200 rounded-md">
+      <div class="p-1.5 bg-gray-200 rounded">
         <FeatherIcon
           name="type"
           :stroke-width="2"
@@ -34,7 +33,7 @@
     </div>
     <div class="title-description">
       <div class="title-link flex items-center gap-2">
-        <div class="text-xl leading-normal font-medium">
+        <div class="text-lg leading-normal font-medium">
           {{ note.title }}
         </div>
         <div v-if="note.link" class="link">
@@ -42,7 +41,7 @@
             <FeatherIcon
               name="external-link"
               :stroke-width="2"
-              class="h-4 w-4 text-blue-600 cursor-pointer"
+              class="h-4 w-4 text-gray-600 hover:text-gray-800 cursor-pointer"
             />
           </a>
         </div>
@@ -61,7 +60,7 @@
     <Button
       class="p-0.5 mr-28 text-gray-500"
       icon="x"
-      appearance="minimal"
+      variant="ghosted"
       @click="delete_note(note.name)"
       title="Click to delete note"
     />
@@ -93,8 +92,9 @@ function delete_note(name) {
     actions: [
       {
         label: 'Delete',
-        appearance: 'danger',
-        handler: ({ close }) => {
+        variant: 'solid',
+        theme: 'red',
+        onClick: ({ close }) => {
           return notes.delete.submit(name).then(() => {
             notes.reload()
             close()

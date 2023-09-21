@@ -2,7 +2,7 @@
   <Dialog
     :options="{
       actions: [
-        { label: 'Create', appearance: 'primary', handler: create_note },
+        { label: 'Create', variant: 'solid', onClick: create_note },
         { label: 'Cancel' },
       ],
       size: '2xl',
@@ -14,16 +14,27 @@
     </template>
     <template #body-content>
       <div class="flex flex-col gap-4">
-        <Input label="Title" placeholder="Note Title" v-model="note.title" />
-        <Input
-          iconLeft="link"
+        <FormControl
+          type="text"
+          label="Title"
+          placeholder="Note Title"
+          v-model="note.title"
+        >
+          <template #prefix>
+            <FeatherIcon name="type" class="h-3.5 w-3.5 text-gray-600" />
+          </template>
+        </FormControl>
+        <FormControl
+          type="text"
           label="Link"
           placeholder="Note Link"
           v-model="note.link"
-        />
-        <span class="-mb-2 block text-sm leading-4 text-gray-700"
-          >Description</span
         >
+          <template #prefix>
+            <FeatherIcon name="link" class="h-3.5 w-3.5 text-gray-600" />
+          </template>
+        </FormControl>
+        <span class="-mb-2.5 block text-xs text-gray-600">Description</span>
         <TextEditor
           editor-class="prose-sm border max-w-none rounded-b-lg p-2 overflow-auto h-64 focus:outline-none"
           :fixedMenu="true"
@@ -36,7 +47,7 @@
 </template>
 
 <script setup>
-import { Dialog, Input, TextEditor } from 'frappe-ui'
+import { Dialog, TextEditor, FormControl, FeatherIcon } from 'frappe-ui'
 import { ref } from 'vue'
 import { notes } from '../data/notes'
 import { useStore } from '../store'
